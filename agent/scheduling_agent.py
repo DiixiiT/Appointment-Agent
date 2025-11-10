@@ -3,7 +3,9 @@ import json
 import httpx
 from openai import OpenAI
 
+from agent.prompts import system_prompt
 from rag.faq_rag import retrieve_insurance_info
+from utility.constant import AVAILABLE_SLOT_URL, BOOKING_API_URL
 
 client = OpenAI()
 
@@ -13,7 +15,6 @@ user_sessions = {}
 async def book_appointment(
     appointment_type, date, start_time, reason, name, email, phone
 ):
-    BOOKING_API_URL = "http://127.0.0.1:8000/api/caledly/book"
     patient = {"name": name, "email": email, "phone": phone}
     payload = {
         "appointment_type": appointment_type,
@@ -34,7 +35,6 @@ async def book_appointment(
 
 
 async def get_available_slots(date_param):
-    AVAILABLE_SLOT_URL = "http://127.0.0.1:8000/api/caledly/availability"
     param = {"date_param": date_param}
     async with httpx.AsyncClient() as client:
         header = {"Authorization": "Bearer hhvjgvg", "Content-Type": "application/json"}
@@ -52,7 +52,7 @@ async def agentchat(session_id, user_message):
         user_sessions[session_id] = [
             {
                 "role": "system",
-                "content": "You are a helpful assistant that can chat and book appointments.",
+                "content": system_prompt,
             }
         ]
 
