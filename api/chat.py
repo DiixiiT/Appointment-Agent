@@ -10,6 +10,6 @@ class Chat(BaseModel):
     message: str
 
 
-@router.post("/chat")
+@router.post("/")
 async def chat(chat_in: Chat):
     return await agentchat(123, chat_in.message)
