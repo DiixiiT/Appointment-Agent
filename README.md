@@ -1,4 +1,4 @@
-## pyhton version used  python3.13
+## Python version used  python3.13
 
 ### Create virtualenv:
 ```
